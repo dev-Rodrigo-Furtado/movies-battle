@@ -1,22 +1,22 @@
-package com.ada.moviesbatlle.web.dto;
+package com.ada.moviesbatlle.web.data;
 
 import com.ada.moviesbatlle.domain.enums.Result;
 import com.ada.moviesbatlle.domain.enums.RoundStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RoundDto {
-    private QuestionDto question;
+public class RoundData {
+    private QuestionData question;
     private Result result;
     private RoundStatus status;
 
-    public RoundDto(QuestionDto question, Result result, RoundStatus status) {
+    public RoundData(QuestionData question, Result result, RoundStatus status) {
         this.question = question;
         this.result = result;
         this.status = status;
     }
 
-    public QuestionDto getQuestion() {
+    public QuestionData getQuestion() {
         return question;
     }
 

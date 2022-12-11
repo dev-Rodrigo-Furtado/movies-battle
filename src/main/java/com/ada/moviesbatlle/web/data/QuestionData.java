@@ -1,22 +1,22 @@
-package com.ada.moviesbatlle.web.dto;
+package com.ada.moviesbatlle.web.data;
 
 import com.ada.moviesbatlle.domain.models.Question;
 
-public class QuestionDto {
+public class QuestionData {
 
     private String primaryMovie;
     private String secondaryMovie;
 
-    public QuestionDto(String primaryMovie, String secondaryMovie) {
+    public QuestionData(String primaryMovie, String secondaryMovie) {
         this.primaryMovie = primaryMovie;
         this.secondaryMovie = secondaryMovie;
     }
 
-    public static QuestionDto fromQuestion(Question question) {
+    public static QuestionData fromQuestion(Question question) {
         String primaryMovie = question.getPrimaryMovie().getTitle();
         String secondaryMovie = question.getSecodaryMovie().getTitle();
 
-        return new QuestionDto(primaryMovie, secondaryMovie);
+        return new QuestionData(primaryMovie, secondaryMovie);
     }
 
     public String getPrimaryMovie() {

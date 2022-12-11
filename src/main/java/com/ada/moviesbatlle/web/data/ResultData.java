@@ -1,12 +1,12 @@
-package com.ada.moviesbatlle.web.dto;
+package com.ada.moviesbatlle.web.data;
 
 import com.ada.moviesbatlle.domain.enums.Result;
 
-public class ResultDto {
+public class ResultData {
 
     private Result result;
 
-    public ResultDto(Result result) {
+    public ResultData(Result result) {
         this.result = result;
     }
 

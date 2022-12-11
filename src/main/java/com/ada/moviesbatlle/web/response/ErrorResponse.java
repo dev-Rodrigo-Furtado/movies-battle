@@ -1,10 +1,10 @@
 package com.ada.moviesbatlle.web.response;
 
-public class ResponseError {
+public class ErrorResponse {
 
     private final Error error;
 
-    public ResponseError(String message) {
+    public ErrorResponse(String message) {
         error = new Error(message);
     }
 

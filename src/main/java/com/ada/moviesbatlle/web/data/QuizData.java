@@ -1,4 +1,4 @@
-package com.ada.moviesbatlle.web.dto;
+package com.ada.moviesbatlle.web.data;
 
 import com.ada.moviesbatlle.domain.enums.QuizStatus;
 import com.ada.moviesbatlle.domain.models.Quiz;
@@ -6,16 +6,16 @@ import com.ada.moviesbatlle.domain.models.Round;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class QuizDto {
+public class QuizData {
 
     private String id;
-    private RoundDto currentRound;
+    private RoundData currentRound;
     private int score;
     private int totalCorrectAnswers;
     private int totalWrongAnswers;
     private QuizStatus status;
 
-    public QuizDto(String id, RoundDto currentRound, int score, int totalCorrectAnswers, int totalWrongAnswers, QuizStatus status) {
+    public QuizData(String id, RoundData currentRound, int score, int totalCorrectAnswers, int totalWrongAnswers, QuizStatus status) {
         this.id = id;
         this.currentRound = currentRound;
         this.score = score;
@@ -24,7 +24,7 @@ public class QuizDto {
         this.status = status;
     }
 
-    public QuizDto(String id, int score, int totalCorrectAnswers, int totalWrongAnswers, QuizStatus status) {
+    public QuizData(String id, int score, int totalCorrectAnswers, int totalWrongAnswers, QuizStatus status) {
         this.id = id;
         this.score = score;
         this.totalCorrectAnswers = totalCorrectAnswers;
@@ -32,19 +32,19 @@ public class QuizDto {
         this.status = status;
     }
 
-    public static QuizDto fromQuiz(Quiz quiz) {
+    public static QuizData fromQuiz(Quiz quiz) {
         Round currentRound = quiz.getCurrentRound();
 
         if (currentRound != null) {
-            RoundDto roundDto = new RoundDto(QuestionDto.fromQuestion(currentRound.getQuestion()),
+            RoundData roundData = new RoundData(QuestionData.fromQuestion(currentRound.getQuestion()),
                     currentRound.getResult(),
                     currentRound.getStatus());
 
-            return new QuizDto(quiz.getID().toString(), roundDto, quiz.getScore(), quiz.getTotalCorrectAnswers(),
+            return new QuizData(quiz.getID().toString(), roundData, quiz.getScore(), quiz.getTotalCorrectAnswers(),
                     quiz.getTotalWrongAnswers(), quiz.getStatus());
         }
 
-        return new QuizDto(quiz.getID().toString(), quiz.getScore(), quiz.getTotalCorrectAnswers(),
+        return new QuizData(quiz.getID().toString(), quiz.getScore(), quiz.getTotalCorrectAnswers(),
                 quiz.getTotalWrongAnswers(), quiz.getStatus());
     }
 
@@ -52,7 +52,7 @@ public class QuizDto {
         return id;
     }
 
-    public RoundDto getCurrentRound() {
+    public RoundData getCurrentRound() {
         return currentRound;
     }
 
