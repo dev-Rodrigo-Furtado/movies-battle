@@ -11,6 +11,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+
 @RunWith(MockitoJUnitRunner.class)
 public class MovieServiceImplTest {
 
@@ -27,30 +30,30 @@ public class MovieServiceImplTest {
     public void getRandomMovie_shouldReturnMovie() {
         Movie expectedMovie = new Movie("tt0167261", "The Lord of the Rings: The Two Towers", 8.8, 1_659_591);
 
-        Mockito.when(movieRepository.findRandomMovieImdbID())
+        when(movieRepository.findRandomMovieImdbID())
                 .thenReturn("tt0167261");
 
-        Mockito.when((omdbHttpClient.findMovie("tt0167261")))
+        when((omdbHttpClient.findMovie("tt0167261")))
                 .thenReturn(expectedMovie);
 
         Movie movie = movieService.getRandomMovie();
 
-        Assert.assertEquals(expectedMovie, movie);
+        assertEquals(expectedMovie, movie);
     }
 
     @Test
     public void getRandomMovieExcept_shouldReturnMovie() {
         Movie expectedMovie = new Movie("tt0167261", "The Lord of the Rings: The Two Towers", 8.8, 1_659_591);
 
-        Mockito.when(movieRepository.findRandomMovieImdbIDExcept("tt1745960"))
+        when(movieRepository.findRandomMovieImdbIDExcept("tt1745960"))
                 .thenReturn("tt0167261");
 
-        Mockito.when((omdbHttpClient.findMovie("tt0167261")))
+        when((omdbHttpClient.findMovie("tt0167261")))
                 .thenReturn(expectedMovie);
 
         Movie movie = movieService.getRandomMovieExcept("tt1745960");
 
-        Assert.assertEquals(expectedMovie, movie);
+        assertEquals(expectedMovie, movie);
     }
 
 

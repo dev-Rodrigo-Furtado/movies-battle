@@ -3,7 +3,6 @@ package com.ada.moviesbatlle.web.service.impl;
 import com.ada.moviesbatlle.domain.models.Movie;
 import com.ada.moviesbatlle.domain.models.Question;
 import com.ada.moviesbatlle.web.service.MovieService;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -16,6 +15,9 @@ import org.mockito.stubbing.Answer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class QuestionServiceImplTest {
@@ -33,15 +35,15 @@ public class QuestionServiceImplTest {
 
         Question expectedQuestion = new Question(primaryMovie, secondaryMovie);
 
-        Mockito.when(movieService.getRandomMovie())
+        when(movieService.getRandomMovie())
                 .thenReturn(primaryMovie);
 
-        Mockito.when(movieService.getRandomMovieExcept("tt0167261"))
+        when(movieService.getRandomMovieExcept("tt0167261"))
                 .thenReturn(secondaryMovie);
 
         Question question = questionService.createQuestionExcept(new ArrayList<>());
 
-        Assert.assertEquals(expectedQuestion, question);
+        assertEquals(expectedQuestion, question);
     }
 
     @Test
@@ -56,7 +58,7 @@ public class QuestionServiceImplTest {
         Question unexpectedQuestion = new Question(primaryUnexpectedMovie, secondaryUnexpectedMovie);
         List<Question> unexpectedQuestions = Arrays.asList(unexpectedQuestion);
 
-        Mockito.when(movieService.getRandomMovie())
+        when(movieService.getRandomMovie())
                 .thenAnswer(new Answer() {
                     private int count = 0;
 
@@ -68,7 +70,7 @@ public class QuestionServiceImplTest {
                     }
                 });
 
-        Mockito.when(movieService.getRandomMovieExcept(Mockito.any()))
+        when(movieService.getRandomMovieExcept(Mockito.any()))
                 .thenAnswer(new Answer() {
                     private int count = 0;
 
@@ -82,7 +84,7 @@ public class QuestionServiceImplTest {
 
         Question question = questionService.createQuestionExcept(unexpectedQuestions);
 
-        Assert.assertEquals(expectedQuestion, question);
+        assertEquals(expectedQuestion, question);
     }
 
 }
