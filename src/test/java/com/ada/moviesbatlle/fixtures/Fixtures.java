@@ -2,7 +2,10 @@ package com.ada.moviesbatlle.fixtures;
 
 import com.ada.moviesbatlle.domain.models.Movie;
 import com.ada.moviesbatlle.domain.models.Question;
+import com.ada.moviesbatlle.domain.models.Quiz;
 import com.ada.moviesbatlle.domain.models.Round;
+
+import java.util.Arrays;
 
 public class Fixtures {
     private Fixtures() {
@@ -34,4 +37,9 @@ public class Fixtures {
 
         return buildRound(question);
     }
+
+    public static Quiz buildQuiz(Round round) {
+        return new Quiz(Arrays.asList(round));
+    }
+
 }

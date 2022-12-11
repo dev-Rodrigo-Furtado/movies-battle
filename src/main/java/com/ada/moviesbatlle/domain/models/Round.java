@@ -72,7 +72,6 @@ public class Round {
 
         Round round = (Round) o;
 
-        if (!Objects.equals(id, round.id)) return false;
         if (!Objects.equals(question, round.question)) return false;
         if (result != round.result) return false;
         return status == round.status;

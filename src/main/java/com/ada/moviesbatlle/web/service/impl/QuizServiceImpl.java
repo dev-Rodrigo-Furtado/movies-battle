@@ -17,12 +17,10 @@ public class QuizServiceImpl implements QuizService {
     @Autowired
     private RoundService roundService;
 
-    private final int TOTAL_ROUNDS = 4;
-
-    public Quiz createQuiz() {
+    public Quiz createQuiz(int roundsAmount) {
         List<Round> rounds = new ArrayList<>();
 
-        while(rounds.size() < TOTAL_ROUNDS) {
+        while(rounds.size() < roundsAmount) {
             rounds.add(roundService.createRound(rounds));
         }
 

@@ -7,6 +7,7 @@ import com.ada.moviesbatlle.domain.enums.RoundStatus;
 import com.ada.moviesbatlle.domain.exceptions.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -137,4 +138,18 @@ public class Quiz {
             throw new QuizStoppedException();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Quiz quiz = (Quiz) o;
+
+        if (score != quiz.score) return false;
+        if (totalCorrectAnswers != quiz.totalCorrectAnswers) return false;
+        if (totalWrongAnswers != quiz.totalWrongAnswers) return false;
+        if (!Objects.equals(rounds, quiz.rounds)) return false;
+        if (!Objects.equals(currentRound, quiz.currentRound)) return false;
+        return status == quiz.status;
+    }
 }

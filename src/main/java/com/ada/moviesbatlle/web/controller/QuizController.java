@@ -22,6 +22,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,6 +40,9 @@ public class QuizController {
     @Autowired
     private QuizRepository quizRepository;
 
+    @Value("${amount.rounds}")
+    private int amountRounds;
+
     @Operation(summary = "Create and start a new Quiz for the current logged user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Quiz created and started successfully",
@@ -49,7 +53,7 @@ public class QuizController {
     @PostMapping("start")
     @ResponseStatus(HttpStatus.CREATED)
     public QuizResponse startNewQuiz() {
-        Quiz quiz = quizService.createQuiz();
+        Quiz quiz = quizService.createQuiz(amountRounds);
         quizRepository.save(quiz, getLoggedUserID());
 
         QuizData quizData = QuizData.fromQuiz(quiz);
