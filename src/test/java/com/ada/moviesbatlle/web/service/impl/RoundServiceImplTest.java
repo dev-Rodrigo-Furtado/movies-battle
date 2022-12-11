@@ -41,9 +41,7 @@ public class RoundServiceImplTest {
 
         Round round = roundService.createRound(existingRounds);
 
-        assertEquals(expectedRound.getQuestion(), round.getQuestion());
-        assertEquals(expectedRound.getStatus(), round.getStatus());
-        assertEquals(expectedRound.getResult(), round.getResult());
+        assertEquals(expectedRound, round);
     }
 
 }
