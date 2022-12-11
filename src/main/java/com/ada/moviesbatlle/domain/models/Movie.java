@@ -23,14 +23,6 @@ public class Movie {
         return title;
     }
 
-    public double getImdbRating() {
-        return imdbRating;
-    }
-
-    public int getImdbVotes() {
-        return imdbVotes;
-    }
-
     public Double getScore() {
         return imdbRating * imdbRating;
     }

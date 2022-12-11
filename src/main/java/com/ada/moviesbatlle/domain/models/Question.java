@@ -50,9 +50,13 @@ public class Question {
 
         Question question = (Question) o;
 
-        return ((Objects.equals(primaryMovie, question.primaryMovie)
-                    || Objects.equals(primaryMovie, question.secodaryMovie)
-                && (Objects.equals(secodaryMovie, question.secodaryMovie)
-                    || Objects.equals(secodaryMovie, question.primaryMovie))));
+        if(Objects.equals(primaryMovie, question.primaryMovie))
+            return Objects.equals(secodaryMovie, question.secodaryMovie);
+
+        if(Objects.equals(primaryMovie, question.secodaryMovie))
+            return Objects.equals(secodaryMovie, question.primaryMovie);
+
+        return false;
     }
+
 }
