@@ -5,6 +5,7 @@ import com.ada.moviesbatlle.domain.enums.Result;
 import com.ada.moviesbatlle.domain.enums.RoundStatus;
 import com.ada.moviesbatlle.domain.exceptions.RoundAlreadyAnswerdException;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Round {
@@ -62,5 +63,18 @@ public class Round {
 
     public RoundStatus getStatus() {
         return status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Round round = (Round) o;
+
+        if (!Objects.equals(id, round.id)) return false;
+        if (!Objects.equals(question, round.question)) return false;
+        if (result != round.result) return false;
+        return status == round.status;
     }
 }
