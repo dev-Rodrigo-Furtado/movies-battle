@@ -10,6 +10,7 @@ public class QuizEntity {
 
     private UUID quizUUID;
     private int quizScore;
+    private int quizTotalCorrectAnswers;
     private int quizTotalWrongAnswers;
     private QuizStatus quizStatus;
 
@@ -35,6 +36,14 @@ public class QuizEntity {
 
     public void setQuizScore(int quizScore) {
         this.quizScore = quizScore;
+    }
+
+    public int getQuizTotalCorrectAnswers() {
+        return quizTotalCorrectAnswers;
+    }
+
+    public void setQuizTotalCorrectAnswers(int quizTotalCorrectAnswers) {
+        this.quizTotalCorrectAnswers = quizTotalCorrectAnswers;
     }
 
     public int getQuizTotalWrongAnswers() {

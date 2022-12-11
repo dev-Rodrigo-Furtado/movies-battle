@@ -16,6 +16,7 @@ public class Quiz {
     private List<Round> rounds;
     private Round currentRound;
     private int score;
+    private int totalCorrectAnswers;
     private int totalWrongAnswers;
     private QuizStatus status;
     private static final int MAX_WRONG_ANSWERS = 3;
@@ -33,7 +34,7 @@ public class Quiz {
         this.currentRound.makeCurrent();
     }
 
-    public Quiz(UUID id, List<Round> rounds, QuizStatus status, int score, int totalWrongAnswers) {
+    public Quiz(UUID id, List<Round> rounds, QuizStatus status, int score, int totalCorrectAnswers, int totalWrongAnswers) {
         this.id = id;
         this.rounds = rounds;
         this.status = status;
@@ -42,6 +43,7 @@ public class Quiz {
                 .findFirst()
                 .get();
         this.score = score;
+        this.totalCorrectAnswers= totalCorrectAnswers;
         this.totalWrongAnswers = totalWrongAnswers;
     }
 
@@ -52,10 +54,12 @@ public class Quiz {
 
         Result roundResult = currentRound.answer(answer);
 
-        if(roundResult == Result.CORRECT_ANSWER)
+        if(roundResult == Result.CORRECT_ANSWER) {
             score++;
-        else
+            totalCorrectAnswers++;
+        } else {
             totalWrongAnswers++;
+        }
 
         if(totalWrongAnswers == MAX_WRONG_ANSWERS) {
             status = QuizStatus.DEFEAT;
@@ -108,6 +112,10 @@ public class Quiz {
 
     public int getScore() {
         return score;
+    }
+
+    public int getTotalCorrectAnswers() {
+        return totalCorrectAnswers;
     }
 
     public int getTotalWrongAnswers() {

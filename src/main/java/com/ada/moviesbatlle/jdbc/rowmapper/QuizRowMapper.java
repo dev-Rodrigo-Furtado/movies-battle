@@ -17,6 +17,7 @@ public class QuizRowMapper implements RowMapper<QuizEntity> {
 
         quizEntity.setQuizUUID(UUID.fromString(rs.getString("quizzes.id")));
         quizEntity.setQuizScore(rs.getInt("quizzes.score"));
+        quizEntity.setQuizTotalCorrectAnswers(rs.getInt("quizzes.total_correct_answers"));
         quizEntity.setQuizTotalWrongAnswers(rs.getInt("quizzes.total_wrong_answers"));
         quizEntity.setQuizStatus(QuizStatus.valueOf(rs.getString("quizzes.status")));
 

@@ -47,6 +47,7 @@ public class QuizJdbcRepository implements QuizRepository {
                 .addValue("id", quiz.getID())
                 .addValue("user_id", loggedUserID)
                 .addValue("score", quiz.getScore())
+                .addValue("total_correct_answers", quiz.getTotalCorrectAnswers())
                 .addValue("total_wrong_answers", quiz.getTotalWrongAnswers())
                 .addValue("status", quiz.getStatus().toString());
 
@@ -59,6 +60,7 @@ public class QuizJdbcRepository implements QuizRepository {
         SqlParameterSource parameterSource = new MapSqlParameterSource()
                 .addValue("id", quiz.getID())
                 .addValue("score", quiz.getScore())
+                .addValue("total_correct_answers", quiz.getTotalCorrectAnswers())
                 .addValue("total_wrong_answers", quiz.getTotalWrongAnswers())
                 .addValue("status", quiz.getStatus().toString());
 
@@ -72,7 +74,8 @@ public class QuizJdbcRepository implements QuizRepository {
                 .addValue("id", quizID)
                 .addValue("user_id", loggedUserID);
 
-        List<QuizEntity> quizEntityList = namedParameterJdbcTemplate.query(findQuizByIDQuery, parameterSource, new QuizRowMapper());
+        List<QuizEntity> quizEntityList = namedParameterJdbcTemplate.query(findQuizByIDQuery, parameterSource,
+                new QuizRowMapper());
 
         List<Round> rounds = quizEntityList.stream().map(quizEntity -> {
             Movie primaryMovie = omdbHttpClient.findMovie(quizEntity.getQuestionPrimaryMovieID());
@@ -84,7 +87,8 @@ public class QuizJdbcRepository implements QuizRepository {
 
         try {
             return new Quiz(quizEntityList.get(0).getQuizUUID(), rounds, quizEntityList.get(0).getQuizStatus(),
-                    quizEntityList.get(0).getQuizScore(), quizEntityList.get(0).getQuizTotalWrongAnswers());
+                    quizEntityList.get(0).getQuizScore(), quizEntityList.get(0).getQuizTotalCorrectAnswers(),
+                    quizEntityList.get(0).getQuizTotalWrongAnswers());
         } catch (Exception ex) {
             throw new QuizNotFoundException();
         }

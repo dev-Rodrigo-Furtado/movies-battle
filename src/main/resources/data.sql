@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS `quizzes` (
   `id` UUID NOT NULL UNIQUE,
   `user_id` UUID  NOT NULL,
   `score` INT NOT NULL,
+  `total_correct_answers` INT NOT NULL,
   `total_wrong_answers` INT NOT NULL,
   `status` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
