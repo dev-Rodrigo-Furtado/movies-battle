@@ -1,6 +1,5 @@
 package com.ada.moviesbatlle.web.service.impl;
 
-import com.ada.moviesbatlle.domain.models.Movie;
 import com.ada.moviesbatlle.domain.models.Question;
 import com.ada.moviesbatlle.web.service.MovieService;
 import org.junit.Test;
@@ -16,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.ada.moviesbatlle.fixtures.Fixtures.buildMovie;
+import static com.ada.moviesbatlle.fixtures.Fixtures.buildQuestion;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -30,16 +31,13 @@ public class QuestionServiceImplTest {
 
     @Test
     public void createQuestionExcept_shouldReturnQuestion() {
-        Movie primaryMovie = new Movie("tt0167261", "The Lord of the Rings: The Two Towers", 8.8, 1_659_591);
-        Movie secondaryMovie = new Movie("tt1745960", "Top Gun: Maverick", 8.4, 435_970);
-
-        Question expectedQuestion = new Question(primaryMovie, secondaryMovie);
+        Question expectedQuestion = buildQuestion();
 
         when(movieService.getRandomMovie())
-                .thenReturn(primaryMovie);
+                .thenReturn(expectedQuestion.getPrimaryMovie());
 
         when(movieService.getRandomMovieExcept("tt0167261"))
-                .thenReturn(secondaryMovie);
+                .thenReturn(expectedQuestion.getSecodaryMovie());
 
         Question question = questionService.createQuestionExcept(new ArrayList<>());
 
@@ -48,14 +46,11 @@ public class QuestionServiceImplTest {
 
     @Test
     public void createQuestionExcept_shouldReturnQuestionWhenUnexpectedQuestionIsFound() {
-        Movie primaryMovie = new Movie("tt0167261", "The Lord of the Rings: The Two Towers", 8.8, 1_659_591);
-        Movie secondaryMovie = new Movie("tt1745960", "Top Gun: Maverick", 8.4, 435_970);
+        Question expectedQuestion = buildQuestion();
+        Question unexpectedQuestion = buildQuestion(
+                buildMovie("tt10872600", "Spider-Man: No Way Home"),
+                buildMovie("tt8579674", "1917"));
 
-        Question expectedQuestion = new Question(primaryMovie, secondaryMovie);
-
-        Movie primaryUnexpectedMovie =  new Movie("tt10872600", "Spider-Man: No Way Home", 8.3, 746_844);
-        Movie secondaryUnexpectedMovie =  new Movie("tt8579674", "1917", 8.2, 585_036);
-        Question unexpectedQuestion = new Question(primaryUnexpectedMovie, secondaryUnexpectedMovie);
         List<Question> unexpectedQuestions = Arrays.asList(unexpectedQuestion);
 
         when(movieService.getRandomMovie())
@@ -64,9 +59,9 @@ public class QuestionServiceImplTest {
 
                     public Object answer(InvocationOnMock invocation) {
                         if (++count == 1)
-                            return primaryUnexpectedMovie;
+                            return unexpectedQuestion.getPrimaryMovie();
 
-                        return primaryMovie;
+                        return expectedQuestion.getPrimaryMovie();
                     }
                 });
 
@@ -76,9 +71,9 @@ public class QuestionServiceImplTest {
 
                     public Object answer(InvocationOnMock invocation) {
                         if (++count == 1)
-                            return secondaryUnexpectedMovie;
+                            return unexpectedQuestion.getSecodaryMovie();
 
-                        return secondaryMovie;
+                        return expectedQuestion.getSecodaryMovie();
                     }
                 });
 

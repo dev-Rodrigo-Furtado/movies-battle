@@ -1,16 +1,16 @@
 package com.ada.moviesbatlle.web.service.impl;
 
 import com.ada.moviesbatlle.domain.models.Movie;
+import com.ada.moviesbatlle.fixtures.Fixtures;
 import com.ada.moviesbatlle.omdb.client.OmdbHttpClient;
 import com.ada.moviesbatlle.web.repository.MovieRepository;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import static com.ada.moviesbatlle.fixtures.Fixtures.buildMovie;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -28,7 +28,7 @@ public class MovieServiceImplTest {
 
     @Test
     public void getRandomMovie_shouldReturnMovie() {
-        Movie expectedMovie = new Movie("tt0167261", "The Lord of the Rings: The Two Towers", 8.8, 1_659_591);
+        Movie expectedMovie = buildMovie("tt0167261", "The Lord of the Rings: The Two Towers");
 
         when(movieRepository.findRandomMovieImdbID())
                 .thenReturn("tt0167261");
@@ -43,7 +43,7 @@ public class MovieServiceImplTest {
 
     @Test
     public void getRandomMovieExcept_shouldReturnMovie() {
-        Movie expectedMovie = new Movie("tt0167261", "The Lord of the Rings: The Two Towers", 8.8, 1_659_591);
+        Movie expectedMovie = buildMovie("tt0167261", "The Lord of the Rings: The Two Towers");
 
         when(movieRepository.findRandomMovieImdbIDExcept("tt1745960"))
                 .thenReturn("tt0167261");
