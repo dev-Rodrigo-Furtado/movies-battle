@@ -3,6 +3,7 @@ package com.ada.moviesbatlle.jdbc.repository;
 import com.ada.moviesbatlle.domain.models.Ranking;
 import com.ada.moviesbatlle.domain.models.RankingPosition;
 import com.ada.moviesbatlle.jdbc.rowmapper.RankingPositionRowMapper;
+import com.ada.moviesbatlle.web.repository.RankingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class RankingJdbcRepository implements RankingRepository{
+public class RankingJdbcRepository implements RankingRepository {
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;

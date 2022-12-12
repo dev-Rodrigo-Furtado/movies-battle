@@ -1,4 +1,4 @@
-package com.ada.moviesbatlle.jdbc.repository;
+package com.ada.moviesbatlle.web.repository;
 
 import com.ada.moviesbatlle.domain.models.Ranking;
 

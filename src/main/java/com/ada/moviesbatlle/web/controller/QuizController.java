@@ -6,7 +6,7 @@ import com.ada.moviesbatlle.domain.enums.QuizStatus;
 import com.ada.moviesbatlle.domain.enums.Result;
 import com.ada.moviesbatlle.domain.exceptions.*;
 import com.ada.moviesbatlle.domain.models.Ranking;
-import com.ada.moviesbatlle.jdbc.repository.RankingRepository;
+import com.ada.moviesbatlle.web.repository.RankingRepository;
 import com.ada.moviesbatlle.web.data.RankingData;
 import com.ada.moviesbatlle.web.exceptions.QuizNotFoundException;
 import com.ada.moviesbatlle.web.response.*;
