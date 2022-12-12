@@ -24,7 +24,7 @@ Return a OPEN API 3.0 based response
 
 ___
 
-### GET /quiz/start
+### POST /quiz/start
 `authorization required`
 
 Create and start a new Quiz for the current logged user
