@@ -8,6 +8,15 @@ Current project test coverage state
 
 <img src="https://user-images.githubusercontent.com/15523493/206949822-c98a10fd-774b-4732-ad20-c6d278ea560c.png" width="320" alt="Jacoco Current Test Coverage State" />
 
+## Warning
+
+For while, we don't have a user subscription endpoint, so you can use this basic auth credentials for play and test this API
+
+|     username  |    password     |
+| -------------- | -------------- |
+|     player01   |    102030      |
+|     player02   |    102030      |
+
 # API endpoints
 
 ### GET /api-docs 
