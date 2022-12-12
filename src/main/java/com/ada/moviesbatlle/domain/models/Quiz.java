@@ -48,11 +48,7 @@ public class Quiz {
         this.totalWrongAnswers = totalWrongAnswers;
     }
 
-    public Result answerCurrentRound(Answer answer) throws RoundAlreadyAnswerdException, NoMoreRoundsException,
-            MaxWrongAnswersException, QuizStoppedException {
-
-        checkQuizAvailability();
-
+    public Result answerCurrentRound(Answer answer) throws RoundAlreadyAnswerdException, NotCurrentRoundException {
         Result roundResult = currentRound.answer(answer);
 
         if(roundResult == Result.CORRECT_ANSWER) {
@@ -69,27 +65,24 @@ public class Quiz {
         return roundResult;
     }
 
-    public Round nextCurrentRound() throws NoMoreRoundsException, MaxWrongAnswersException, QuizStoppedException {
-        checkQuizAvailability();
+    public void nextCurrentRound() {
 
         if(!currentRound.isAnswerd())
-            return currentRound;
+            return;
 
         Optional<Round> round = rounds.stream()
                 .filter(r -> r.getStatus() == RoundStatus.PENDING)
                 .findFirst();
 
-        if(round.isPresent()) {
-            currentRound.makeDone();
-
-            this.currentRound = round.get();
-            currentRound.makeCurrent();
-
-            return currentRound;
+        if(round.isEmpty()) {
+            status = QuizStatus.COMPLETED;
+            return;
         }
 
-        status = QuizStatus.COMPLETED;
-        throw new NoMoreRoundsException();
+        currentRound.makeDone();
+
+        this.currentRound = round.get();
+        currentRound.makeCurrent();
     }
 
     public void stop() throws QuizNotStartedException {
@@ -125,17 +118,6 @@ public class Quiz {
 
     public QuizStatus getStatus() {
         return status;
-    }
-
-    private void checkQuizAvailability() throws MaxWrongAnswersException, NoMoreRoundsException, QuizStoppedException {
-        if(status == QuizStatus.DEFEAT)
-            throw new MaxWrongAnswersException();
-
-        if(status == QuizStatus.COMPLETED)
-            throw new NoMoreRoundsException();
-
-        if(status == QuizStatus.STOPPED)
-            throw new QuizStoppedException();
     }
 
     @Override

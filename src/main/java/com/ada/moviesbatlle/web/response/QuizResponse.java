@@ -12,5 +12,9 @@ public class QuizResponse {
     public QuizData getData() {
         return data;
     }
+
+    public void setData(QuizData data) {
+        this.data = data;
+    }
 }
 

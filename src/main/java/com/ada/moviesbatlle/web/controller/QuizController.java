@@ -2,6 +2,7 @@ package com.ada.moviesbatlle.web.controller;
 
 
 import com.ada.moviesbatlle.domain.enums.Answer;
+import com.ada.moviesbatlle.domain.enums.QuizStatus;
 import com.ada.moviesbatlle.domain.enums.Result;
 import com.ada.moviesbatlle.domain.exceptions.*;
 import com.ada.moviesbatlle.web.exceptions.QuizNotFoundException;
@@ -114,20 +115,21 @@ public class QuizController {
 
     @GetMapping("{id}/question")
     @ResponseStatus(HttpStatus.OK)
-    public QuestionResponse getQuestion(@PathVariable String id) throws NoMoreRoundsException,
-            MaxWrongAnswersException, QuizStoppedException, QuizNotFoundException {
+    public QuestionResponse getQuestion(@PathVariable String id) throws MaxWrongAnswersException, QuizStoppedException, QuizNotFoundException, NoMoreRoundsException {
         Quiz quiz = quizRepository.selectQuiz(UUID.fromString(id), getLoggedUserID());
+        checkQuizAvailability(quiz);
 
-        try {
-            QuestionData questionData = new QuestionData(quiz.nextCurrentRound().getQuestion().getPrimaryMovie().getTitle(),
-                    quiz.nextCurrentRound().getQuestion().getSecodaryMovie().getTitle());
+        quiz.nextCurrentRound();
+        quizRepository.update(quiz);
 
-            quizRepository.update(quiz);
-            return new QuestionResponse(questionData);
-        } catch (NoMoreRoundsException ex) {
-            quizRepository.update(quiz);
-            throw ex;
-        }
+        if(quiz.getStatus() == QuizStatus.COMPLETED)
+            throw new NoMoreRoundsException();
+
+        QuestionData questionData = new QuestionData(quiz.getCurrentRound().getQuestion().getPrimaryMovie().getTitle(),
+                quiz.getCurrentRound().getQuestion().getSecodaryMovie().getTitle());
+
+        return new QuestionResponse(questionData);
+
     }
 
     @Operation(summary = "Answer Quiz current Question")
@@ -144,9 +146,11 @@ public class QuizController {
     @ResponseStatus(HttpStatus.OK)
     public ResultResponse answerCurrentQuestion(@PathVariable String id, @RequestParam(name = "a") Answer answer)
             throws RoundAlreadyAnswerdException, NoMoreRoundsException,
-            MaxWrongAnswersException, QuizStoppedException, QuizNotFoundException {
+            MaxWrongAnswersException, QuizStoppedException, QuizNotFoundException, NotCurrentRoundException {
 
         Quiz quiz = quizRepository.selectQuiz(UUID.fromString(id), getLoggedUserID());
+        checkQuizAvailability(quiz);
+
         Result result = quiz.answerCurrentRound(answer);
 
         quizRepository.update(quiz);
@@ -157,6 +161,17 @@ public class QuizController {
 
     private UUID getLoggedUserID() {
         return ((UserModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+    }
+
+    private void checkQuizAvailability(Quiz quiz) throws MaxWrongAnswersException, NoMoreRoundsException, QuizStoppedException {
+        if (quiz.getStatus() == QuizStatus.DEFEAT)
+            throw new MaxWrongAnswersException();
+
+        if (quiz.getStatus() == QuizStatus.COMPLETED)
+            throw new NoMoreRoundsException();
+
+        if (quiz.getStatus() == QuizStatus.STOPPED)
+            throw new QuizStoppedException();
     }
 
 }

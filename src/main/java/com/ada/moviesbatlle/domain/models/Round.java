@@ -3,6 +3,7 @@ package com.ada.moviesbatlle.domain.models;
 import com.ada.moviesbatlle.domain.enums.Answer;
 import com.ada.moviesbatlle.domain.enums.Result;
 import com.ada.moviesbatlle.domain.enums.RoundStatus;
+import com.ada.moviesbatlle.domain.exceptions.NotCurrentRoundException;
 import com.ada.moviesbatlle.domain.exceptions.RoundAlreadyAnswerdException;
 
 import java.util.Objects;
@@ -28,9 +29,12 @@ public class Round {
         this.result = result;
     }
 
-    public Result answer(Answer answer) throws RoundAlreadyAnswerdException {
+    public Result answer(Answer answer) throws RoundAlreadyAnswerdException, NotCurrentRoundException {
         if(isAnswerd())
             throw new RoundAlreadyAnswerdException();
+
+        if(status != RoundStatus.CURRENT)
+            throw new NotCurrentRoundException();
 
         result = answer == question.getAnswer() ? Result.CORRECT_ANSWER : Result.WRONG_ANSWER;
 

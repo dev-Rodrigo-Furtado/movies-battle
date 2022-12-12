@@ -23,8 +23,8 @@ public class Movie {
         return title;
     }
 
-    public Double getScore() {
-        return imdbRating * imdbRating;
+    public double getScore() {
+        return imdbRating * imdbVotes;
     }
 
     @Override
