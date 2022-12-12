@@ -52,14 +52,14 @@ Return current Question based on informed Quiz ID
 
 ___
 
-### GET /quiz/{id}/answer?a=FIRST
+### POST /quiz/{id}/answer?a=FIRST
 `authorization required`
 
 Answer FIRST for the current Question based on informed Quiz ID
 
 ___
 
-### GET /quiz/{id}/answer?a=SECOND
+### POST /quiz/{id}/answer?a=SECOND
 `authorization required`
 
 Answer SECOND for the current Question based on informed Quiz ID
