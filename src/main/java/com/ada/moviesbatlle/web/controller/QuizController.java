@@ -5,17 +5,17 @@ import com.ada.moviesbatlle.domain.enums.Answer;
 import com.ada.moviesbatlle.domain.enums.QuizStatus;
 import com.ada.moviesbatlle.domain.enums.Result;
 import com.ada.moviesbatlle.domain.exceptions.*;
+import com.ada.moviesbatlle.domain.models.Ranking;
+import com.ada.moviesbatlle.jdbc.repository.RankingRepository;
+import com.ada.moviesbatlle.web.data.RankingData;
 import com.ada.moviesbatlle.web.exceptions.QuizNotFoundException;
-import com.ada.moviesbatlle.web.response.ErrorResponse;
-import com.ada.moviesbatlle.web.response.QuestionResponse;
-import com.ada.moviesbatlle.web.response.ResultResponse;
+import com.ada.moviesbatlle.web.response.*;
 import com.ada.moviesbatlle.web.security.UserModel;
 import com.ada.moviesbatlle.web.service.QuizService;
 import com.ada.moviesbatlle.domain.models.Quiz;
 import com.ada.moviesbatlle.web.data.QuestionData;
 import com.ada.moviesbatlle.web.data.QuizData;
 import com.ada.moviesbatlle.web.repository.QuizRepository;
-import com.ada.moviesbatlle.web.response.QuizResponse;
 import com.ada.moviesbatlle.web.data.ResultData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -40,6 +40,9 @@ public class QuizController {
 
     @Autowired
     private QuizRepository quizRepository;
+
+    @Autowired
+    private RankingRepository rankingRepository;
 
     @Value("${amount.rounds}")
     private int amountRounds;
@@ -157,6 +160,20 @@ public class QuizController {
 
         ResultData resultData = new ResultData(result);
         return new ResultResponse(resultData);
+    }
+
+    @Operation(summary = "Return Ranking current state")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ranking retrieved successfully",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = RankingResponse.class)))})
+
+    @GetMapping("ranking")
+    @ResponseStatus(HttpStatus.OK)
+    public RankingResponse getRanking() {
+        Ranking ranking = rankingRepository.getRanking();
+
+        RankingData rankingData = RankingData.fromRanking(ranking);
+        return new RankingResponse(rankingData);
     }
 
     private UUID getLoggedUserID() {

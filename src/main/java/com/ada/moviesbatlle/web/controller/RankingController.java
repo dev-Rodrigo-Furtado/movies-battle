@@ -18,21 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RankingController {
 
-    @Autowired
-    private RankingRepository rankingRepository;
 
-    @Operation(summary = "Return Ranking current state")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Ranking retrieved successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = RankingResponse.class)))})
 
-    @GetMapping("ranking")
-    @ResponseStatus(HttpStatus.CREATED)
-    public RankingResponse getRanking() {
-        Ranking ranking = rankingRepository.getRanking();
 
-        RankingData rankingData = RankingData.fromRanking(ranking);
-        return new RankingResponse(rankingData);
-    }
 
 }
