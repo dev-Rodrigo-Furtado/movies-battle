@@ -7,6 +7,8 @@ public class QuestionData {
     private String primaryMovie;
     private String secondaryMovie;
 
+    public QuestionData() { }
+
     public QuestionData(String primaryMovie, String secondaryMovie) {
         this.primaryMovie = primaryMovie;
         this.secondaryMovie = secondaryMovie;

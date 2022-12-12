@@ -3,7 +3,10 @@ package com.ada.moviesbatlle.web.response;
 import com.ada.moviesbatlle.web.data.QuizData;
 
 public class QuizResponse {
+
     private QuizData data;
+
+    public QuizResponse() { }
 
     public QuizResponse(QuizData data) {
         this.data = data;
@@ -13,8 +16,5 @@ public class QuizResponse {
         return data;
     }
 
-    public void setData(QuizData data) {
-        this.data = data;
-    }
 }
 

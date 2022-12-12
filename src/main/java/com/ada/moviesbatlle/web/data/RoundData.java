@@ -10,6 +10,8 @@ public class RoundData {
     private Result result;
     private RoundStatus status;
 
+    public RoundData() { }
+
     public RoundData(QuestionData question, Result result, RoundStatus status) {
         this.question = question;
         this.result = result;

@@ -15,6 +15,8 @@ public class QuizData {
     private int totalWrongAnswers;
     private QuizStatus status;
 
+    public QuizData() { }
+
     public QuizData(String id, RoundData currentRound, int score, int totalCorrectAnswers, int totalWrongAnswers, QuizStatus status) {
         this.id = id;
         this.currentRound = currentRound;
